@@ -25,9 +25,22 @@ class ClientB implements Runnable
         {
             System.out.println("Enter Message : ");
             String d=br.readLine();
-            DatagramPacket dp1=new DatagramPacket(d.getBytes(),d.length(),InetAddress.getLocalHost(),serverport);
-            ds.send(dp1);
-            break;
+            if(d.equals("Send"))
+            {
+                System.out.println("Enter name : ");
+                String d1=br.readLine();
+                d1 = "Send " + d1;
+                System.out.println("Enter Message : ");
+                String d2=br.readLine();
+                d2 = d1 + " " + d2;
+                DatagramPacket dp2=new DatagramPacket(d2.getBytes(),d2.length(),InetAddress.getLocalHost(),serverport);
+                ds.send(dp2);
+            }   
+            else
+            {
+                DatagramPacket dp1=new DatagramPacket(d.getBytes(),d.length(),InetAddress.getLocalHost(),serverport);
+                ds.send(dp1);
+            }
         }
     }
 

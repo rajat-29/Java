@@ -34,6 +34,7 @@ class ServerProgram implements Runnable{
     public void run() 
     {
         byte b[]=new byte[1000];
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while(true)
         {
             try
@@ -41,6 +42,7 @@ class ServerProgram implements Runnable{
                 DatagramPacket dp = new DatagramPacket(b,b.length);
                 ds.receive(dp);
                 String data = new String(b,0,dp.getLength());
+                int index = data.indexOf(' ');
                 if(data.equals("Live"))
                 {
                     for(Map.Entry e : map.entrySet())
@@ -52,8 +54,31 @@ class ServerProgram implements Runnable{
                 }
                 else
                 {
-                    System.out.println(data + " Loged In");
-                    map.put(data, dp.getPort());
+                    String command="exit";
+                    if(index != -1)
+                        command = data.substring(0,index);
+
+                    if(command.equals("Send"))
+                    {
+                        index++;
+                        int a = index;
+                        char d[] = data.toCharArray();
+                        while(d[a] != ' ')
+                        {
+                            a++;
+                        }
+                        command = data.substring(index,a);
+                        int portnumber = map.get(command);
+                        command = data.substring(a,data.length());
+                         DatagramPacket dp3 = new DatagramPacket(command.getBytes(),command.length(),InetAddress.getLocalHost(),portnumber);
+                        ds.send(dp3);
+                       // System.out.println(command);
+                    }
+                    else
+                    {
+                        System.out.println(data + " Loged In");
+                        map.put(data, dp.getPort());
+                    }
                 }
                 //printMap(map);
                 //System.out.println("Client : " +data);
