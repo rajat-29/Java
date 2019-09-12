@@ -9,7 +9,7 @@ public class longestNames
   public static void findLongestName(String [] t)
   {
     String longestName = t[0];
-    for(int i=0;i<t.length;i++)
+    for(int i=1;i<t.length;i++)
     {
       if(t[i].length() > longestName.length())
       {

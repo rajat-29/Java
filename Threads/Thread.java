@@ -4,9 +4,7 @@ class Buffer
 {
 	static int no;
 	synchronized void display()
-	{
-		
-	
+	{	
 		try
 		{
 			Thread.sleep(1000);
